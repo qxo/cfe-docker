@@ -1,0 +1,18 @@
+#!/bin/sh
+if [ -n "$1" -a -n "$2" ] ; then
+ echo "1=$1 2=$2"
+
+ echo "after:"
+ cat /var/cfengine/inputs/processes_run.csv
+
+ sed -i "/^$1,.*/d"  /var/cfengine/inputs/processes_run.csv
+ if  [ -n "$2" ] ; then
+   echo "$1,$2" >> /var/cfengine/inputs/processes_run.csv
+ fi
+
+ echo "after:"
+ cat /var/cfengine/inputs/processes_run.csv 
+
+else
+ echo 'required one or two parameter,$1=process name,$2=command, one for remove,two for add or replace.'  
+fi

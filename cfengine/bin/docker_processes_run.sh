@@ -8,12 +8,14 @@
 # The commands' basename should become a process in order to be detected by CFEngine.
 # The commands will be run as root in a shell.
 
+if [ -n "$1" ] ; then
+
 #clean history
 sed -i  -n '/^[^#]*$/{N;d};p' /var/cfengine/inputs/processes_run.csv
 # if the command "cmd" not a daemon (just a script startup other deamon process)
-# we should identitify by the daemon process like:
+# we should identitify by the daemon process like: 
 # 1. append process name with '#' eg: /startOracle.sh#tnslsnr
-# 2. on script add daemon process identitify line ,eg '#cfengine-monitor-proccess:tnslsnr'
+# 2. on script add daemon process identitify line ,eg '#cfengine-monitor-process:tnslsnr' 
 for cmd in "$@"
 do
   pn=$(echo "$cmd" | awk -F'#' '{print $2;}');
@@ -34,3 +36,5 @@ done
 
 /var/cfengine/bin/cf-agent
 /var/cfengine/bin/cf-execd -F
+
+fi
